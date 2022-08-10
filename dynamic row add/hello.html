@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Demo table</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+	
+	<script>
+		$(document).ready(function(){
+		
+			var ch=1;
+			var id=0;
+			let arr_name = new Array();
+			let arr_id = new Array();
+			let arr_mobile = new Array();
+			let arr_email = new Array();
+			
+			$("#btn").click(function(e){
+				e.preventDefault();
+				
+				var name = $("#name").val();
+				var mobile = $("#mobile").val();
+				var email = $("#email").val();
+				
+				
+				if(name == "" || mobile == "" || email == "")
+				{
+					alert("enter data first");
+				}
+				else
+				{
+						id++;
+						$("#table").append("<tr class="+'"'+id+'"'+"><td><p>"+ id +"</p></td><td><p>"+ name +"</p></td><td><p>"+ mobile +"</p></td><td>	<p>"+ email +"</p></td>	<td>"+"<button class='link btn1'>Delete</button>"+"</td></tr>");
+						arr_name.push(name);
+						arr_id.push(id);
+						arr_mobile.push(mobile);
+						arr_email.push(email);
+						
+						$("#name").val("");
+						$("#mobile").val("");
+						$("#email").val("");
+				}
+			});
+			
+			$("#table").on("click",".btn1",function(){
+				$(this).parent().parent().remove();
+				id--;
+			});
+			
+			$("#btnjson").click(function(){
+			
+				
+				if(id==0)
+				{
+					alert("No Records..");
+				}
+				else{
+					$(".json").remove();
+					$("#jsonform").append('<textarea class="json"></textarea>');
+					
+					$(".json").append('\n'+'['+'\n');
+					
+					
+					for(var i=0;i<id;i++)
+					{
+						$(".json").append('{'+'\n');
+						$(".json").append('"'+"id"+'"'+": "+arr_id[i]+","+"\n");
+						$(".json").append('"'+"name"+'"'+": "+'"'+arr_name[i]+'"'+","+"\n");
+						$(".json").append('"'+"mobile"+'"'+": "+arr_mobile[i]+","+"\n");
+						$(".json").append('"'+"email"+'"'+": "+'"'+arr_email[i]+'"'+"\n");
+						$(".json").append('}'+','+'\n');
+						
+					}
+					$(".json").append(']'+'\n');
+
+				}
+				
+			})
+			
+		});
+	</script>
+	
+</head>
+
+<body>
+	
+	<div class="main-div">
+	
+		<div class="div-left">
+			
+			<div class="form-wrapper">
+				<form>
+					
+					<input type="text" id="name" placeholder="Name" required>
+					<input type="text" id="mobile" placeholder="Mobile no" required>
+					<input type="email" id="email" placeholder="Email" required><br>
+					
+					<button class="btn" type="submit" id="btn">Add Row</button>
+				</form>
+				
+				<button class="btnjson" id="btnjson"> Create JSON </button>
+			</div>
+			
+			<div class="table-wrapper">
+				
+				<table id="table">
+					
+					<tr>
+						<td>
+							<p> ID </p>
+						</td>
+						<td>
+							<p > NAME </p>
+						</td>
+						<td>
+							<p > MOBILE </p>
+						</td>
+						<td>
+							<p > EMAIL </p>
+						</td>
+						<td>
+							<p> ACTION </p>
+						</td>
+					</tr>
+					
+				</table>
+				
+			</div>
+			
+		</div>
+		
+		<div class="div-right">
+			
+			<form id="jsonform">
+				
+			</form>
+		</div>
+	
+	</div>
+	
+</body>
+
+</html>
